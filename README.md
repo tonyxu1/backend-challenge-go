@@ -107,9 +107,11 @@ go run ./cmd/challenger
 ## Solution
 ### Design
 1. An HTTP Server to serve `GET /tokens?q=<query parameters>` by using [echo](https://echo.labstack.com/)
-2. A cron job to periodically get updated NFT information from ETH mainnet, push the data to Golang sync map.
+2. A cron job to periodically get updated NFT information from ETH mainnet, push the contract metadata to Golang sync map.
 3. Get proper contract metadata from webserver memory once client requests come in.
-4. Break contract address list into smaller chunks and send them to a goroutine to get contract metadata.   
+4. Break contract address list into smaller chunks and send them to a separate goroutine to get contract metadata.
+5. Extend the query parameter to support comma separated values.
+6. Extend the query parameter to serch metadata by contract address.
 
 ### Benefits of this approach:
 1. Reduce the denpendency on external services. (alchemy services, etc)
@@ -130,4 +132,7 @@ To run the application from local machine:
 1. The `PORT` and `ADDRESS_FILE_DIR` are optional, will use default values if not provided.
 2. The `ADDRESS_FILE_DIR` is the directory that contains the `addresses.jsonl` file.
 3. The `addresses.jsonl` file is a list of addresses that we will use to get the contract metadata.
-4. Decimal places are set to be 0 for all tokens, which is correct value for NFTs 
+4. Decimal places are set to be 0 for all tokens, which is correct value for NFTs
+5. Some of hardcoded values should be configurable.
+6. New query parameter should be added to return all tokens e.g. `/tokens?q=all_tokens`
+7. Since the metadata is loaded asyncronously, we may not return any values for a query in first few seconds.

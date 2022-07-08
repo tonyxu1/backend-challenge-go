@@ -5,14 +5,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"math/big"
 	"net/http"
 	"strconv"
 	"strings"
 
-	"github.com/rarecircles/backend-challenge-go/eth"
+	"go.uber.org/zap"
+
+	"backend-challenge-go/eth"
+
 	"github.com/tidwall/gjson"
 )
 

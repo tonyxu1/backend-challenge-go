@@ -103,3 +103,31 @@ To start a local server run:
 ```
 go run ./cmd/challenger
 ```
+
+## Solution
+### Design
+1. An HTTP Server to serve `GET /tokens?q=<query parameters>` by using [echo](https://echo.labstack.com/)
+2. A cron job to periodically get updated NFT information from ETH mainnet, push the data to Golang sync map.
+3. Get proper contract metadata from webserver memory once client requests come in.
+4. Break contract address list into smaller chunks and send them to a goroutine to get contract metadata.   
+
+### Benefits of this approach:
+1. Reduce the denpendency on external services. (alchemy services, etc)
+2. No extra work for horizontal scaling.
+3. Best performance.
+4. No need to worry about the underlying technology, even alchemy is down, we can still serve the requests, with the existing data.
+5. No extra work need to be done to run the server behind a load balancer.
+
+### Running the server
+To run the application from local machine:  
+
+```
+    git clone <the repo>
+    PORT=2304 ADDRESS_FILE_DIR=./data go run ./cmd/challenge
+```
+
+### Notes:
+1. The `PORT` and `ADDRESS_FILE_DIR` are optional, will use default values if not provided.
+2. The `ADDRESS_FILE_DIR` is the directory that contains the `addresses.jsonl` file.
+3. The `addresses.jsonl` file is a list of addresses that we will use to get the contract metadata.
+4. Decimal places are set to be 0 for all tokens, which is correct value for NFTs 

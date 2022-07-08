@@ -1,0 +1,2 @@
+// Curl testing for alchemy nft api
+curl --location --request GET 'https://eth-mainnet.alchemyapi.io/nft/v2/RSUpmPce42zYBEHER3XN0B_VOCCI-Esl/getContractMetadata/?contractAddress=0xC86664e7d2608f881f796ee8E24FA9d4d7598406'
